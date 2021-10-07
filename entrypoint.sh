@@ -42,7 +42,7 @@ done
 # find -exec does not preserve failed exit codes, so use an output file for failures
 failed_wheels=$PWD/failed-wheels
 rm -f "$failed_wheels"
-find . -type f -iname "*-linux*.whl" -exec sh -c "auditwheel repair '{}' -w \$(dirname '{}') --plat '${PLAT}' || { echo 'Repairing wheels failed.'; auditwheel show '{}' >> "$failed_wheels"; }" \;
+find ./wheelhouse -type f -iname "*-linux*.whl" -exec sh -c "auditwheel repair '{}' -w \$(dirname '{}') --plat '${PLAT}' || { echo 'Repairing wheels failed.'; auditwheel show '{}' >> "$failed_wheels"; }" \;
 
 if [[ -f "$failed_wheels" ]]; then
     echo "Repairing wheels failed:"
@@ -51,4 +51,8 @@ if [[ -f "$failed_wheels" ]]; then
 fi
 
 echo "Succesfully build wheels:"
-find . -type f -iname "*-manylinux*.whl"
+find ./wheelhouse -type f -iname "*-manylinux*.whl"
+
+mkdir -p dist
+cp -v wheelhouse/*-manylinux*.whl dist/
+rm -r wheelhouse

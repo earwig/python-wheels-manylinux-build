@@ -26,7 +26,7 @@ inputs:
   pip-wheel-args:
     description: 'extra arguments to pass to the `pip wheel` command, passed paths are relative to `package-path`'
     required: false
-    default: '-w ./dist --no-deps'
+    default: '-w ./wheelhouse --no-deps'
 runs:
   using: 'docker'
   image: 'Dockerfile'
